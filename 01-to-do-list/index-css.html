@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(
+          180deg,
+          #3ac6f3 0%,
+          rgba(200, 180, 180, 0.4) 40%,
+          rgba(255, 0, 0, 0.56) 100%
+        );
+        overflow: hidden;
+      }
+
+      #app {
+        background: #fff;
+        max-width: 500px;
+        width: 100%;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #counter span {
+        margin-right: 0.5rem;
+      }
+
+      #input-field {
+        margin: 20px 0;
+        width: 100%;
+        display: flex;
+        height: 2.5rem;
+      }
+
+      #input-field input {
+        width: 85%;
+        height: 100%;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        font-size: 0.8rem;
+        padding-left: 15px;
+        outline: none;
+      }
+
+      #input-field input:focus {
+        border-color: #ff0051;
+      }
+
+      #input-field button {
+        width: 50px;
+        height: 100%;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 21px;
+        outline: none;
+        background: #3ac6f3;
+        border-radius: 3px;
+      }
+
+      #input-field button:hover {
+        background: #ff0051;
+      }
+
+      #item-list-container {
+        max-height: 250px;
+        overflow: scroll;
+      }
+
+      #item-list-container li {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        height: 3rem;
+        line-height: 3rem;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      #item-list-container div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      #item-list-container input {
+        margin: 1rem;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button {
+        width: 3rem;
+        margin: 0.3rem 1rem;
+        width: 3rem;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        outline: none;
+        background: #f97;
+        border-radius: 3px;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button:hover {
+        background-color: #ddd;
+      }
+      #item-list-container span {
+        width: 100%;
+        text-align: 'left';
+      } */
+    </style>
+  </head>
+  <body>
+    <script>
+      const app = createElement({
+        tagName: 'div',
+        properties: { id: 'app' },
+        parent: document.body,
+      });
+
+      const header = createElement({
+        tagName: 'div',
+        properties: { id: 'header' },
+        parent: app,
+        children: [
+          { tagName: 'h1', properties: { innerText: 'To-do list' } },
+          {
+            tagName: 'div',
+            properties: { id: 'counter' },
+            children: [
+              { tagName: 'span', properties: { innerText: 'Total :' } },
+              { tagName: 'span', properties: { innerText: '0' } },
+              { tagName: 'span', properties: { innerText: 'Compelted :' } },
+              { tagName: 'span', properties: { innerText: '0' } },
+            ],
+          },
+        ],
+      });
+
+      const inputField = createElement({
+        tagName: 'div',
+        properties: { id: 'input-field' },
+        parent: app,
+        children: [
+          {
+            tagName: 'input',
+            properties: { placeholder: '할일을 입력해주세요...' },
+          },
+          {
+            tagName: 'button',
+            properties: { innerText: 'Add' },
+          },
+        ],
+      });
+
+      const itemListContainer = createElement({
+        tagName: 'div',
+        properties: { id: 'item-list-container' },
+        parent: app,
+        children: [
+          {
+            tagName: 'ul',
+            properties: { id: 'item-list' },
+          },
+        ],
+      });
+
+      // 인라인 스타일
+      // app.style.background = '#000';
+      // app.style.setProperty('background', '#f00');
+      // app.style.cssText = `background: #fff;
+      //   max-width: 500px;
+      //   width: 100%;
+      //   margin: 100px auto;
+      //   padding: 20px;
+      //   border-radius: 6px;
+      //   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);`;
+
+      // app.style.removeProperty('box-shadow');
+
+      // 스타일 시트
+      // document.styleSheets[0].insertRule(`#app {
+      //   background: #fff;
+      //   max-width: 500px;
+      //   width: 100%;
+      //   margin: 100px auto;
+      //   padding: 20px;
+      //   border-radius: 6px;
+      //   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      // }`);
+      // // document.styleSheets[0].deleteRule(0);
+
+      // // app.style.background = '#000';
+      // console.log(app.style.background);
+      // console.log(getComputedStyle(app));
+
+      const stylesheet = new CSSStyleSheet();
+      stylesheet.replace(`* {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(
+          180deg,
+          #3ac6f3 0%,
+          rgba(200, 180, 180, 0.4) 40%,
+          rgba(255, 0, 0, 0.56) 100%
+        );
+        overflow: hidden;
+      }
+
+      #app {
+        background: #fff;
+        max-width: 500px;
+        width: 100%;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #counter span {
+        margin-right: 0.5rem;
+      }
+
+      #input-field {
+        margin: 20px 0;
+        width: 100%;
+        display: flex;
+        height: 2.5rem;
+      }
+
+      #input-field input {
+        width: 85%;
+        height: 100%;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        font-size: 0.8rem;
+        padding-left: 15px;
+        outline: none;
+      }
+
+      #input-field input:focus {
+        border-color: #ff0051;
+      }
+
+      #input-field button {
+        width: 50px;
+        height: 100%;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 21px;
+        outline: none;
+        background: #3ac6f3;
+        border-radius: 3px;
+      }
+
+      #input-field button:hover {
+        background: #ff0051;
+      }
+
+      #item-list-container {
+        max-height: 250px;
+        overflow: scroll;
+      }
+
+      #item-list-container li {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        height: 3rem;
+        line-height: 3rem;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      #item-list-container div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      #item-list-container input {
+        margin: 1rem;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button {
+        width: 3rem;
+        margin: 0.3rem 1rem;
+        width: 3rem;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        outline: none;
+        background: #f97;
+        border-radius: 3px;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button:hover {
+        background-color: #ddd;
+      }
+      #item-list-container span {
+        width: 100%;
+        text-align: 'left';
+      }`);
+
+      // console.log(stylesheet);
+      // document.head.appendChild(stylesheet);
+
+      document.adoptedStyleSheets = [stylesheet];
+
+      function createElement({
+        tagName,
+        properties,
+        parent,
+        children,
+        count = 1,
+      }) {
+        const create = () => {
+          const element = document.createElement(tagName);
+          Object.assign(element, properties);
+          parent?.appendChild(element);
+          children?.map((child) => {
+            child.parent = element;
+            createElement(child);
+          });
+          return element;
+        };
+
+        if (count > 1) {
+          const results = [];
+          for (let i = 0; i < count; ++i) {
+            results.push(create());
+          }
+          return results;
+        } else {
+          return create();
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * wrapper
+       * - header
+       *   - title
+       *   - counter
+       *     - 'Total'
+       *     - 0
+       *     - 'Complete'
+       *     - 0
+       * - input-field
+       *   - input
+       *   - button 'add'
+       * - item-list-container
+       *   - ul
+       *     - li
+       *			- div
+       *       - input(checkbox)
+       *       - span
+       *       - button 'remove'
+       */
+      // const wrapper = document.createElement('div');
+      // const header = document.createElement('div');
+      // const inputField = document.createElement('div');
+      // const itemListContainer = document.createElement('div');
+      // wrapper.appendChild(header);
+      // wrapper.appendChild(inputField);
+      // wrapper.appendChild(itemListContainer);
+      // document.body.appendChild(wrapper);
+
+      // console.log(
+      //   createElement({
+      //     tagName: 'div',
+      //     properties: { innerText: 'create element' },
+      //     parent: document.body,
+      //     count: 10,
+      //   })
+      // );
+
+      const app = createElement({
+        tagName: 'div',
+        properties: { id: 'app' },
+        parent: document.body,
+      });
+
+      const header = createElement({
+        tagName: 'div',
+        properties: { id: 'header' },
+        parent: app,
+        children: [
+          { tagName: 'h1', properties: { innerText: 'To-do list' } },
+          {
+            tagName: 'div',
+            properties: { id: 'counter' },
+            children: [
+              { tagName: 'span', properties: { innerText: 'Total :' } },
+              { tagName: 'span', properties: { innerText: '0' } },
+              { tagName: 'span', properties: { innerText: 'Compelted :' } },
+              { tagName: 'span', properties: { innerText: '0' } },
+            ],
+          },
+        ],
+      });
+
+      const inputField = createElement({
+        tagName: 'div',
+        properties: { id: 'input-field' },
+        parent: app,
+        children: [
+          {
+            tagName: 'input',
+            properties: { placeholder: '할일을 입력해주세요...' },
+          },
+          {
+            tagName: 'button',
+            properties: { innerText: 'Add' },
+          },
+        ],
+      });
+
+      const itemListContainer = createElement({
+        tagName: 'div',
+        properties: { id: 'item-list-container' },
+        parent: app,
+        children: [
+          {
+            tagName: 'ul',
+            properties: { id: 'item-list' },
+          },
+        ],
+      });
+
+      function createElement({
+        tagName,
+        properties,
+        parent,
+        children,
+        count = 1,
+      }) {
+        const create = () => {
+          const element = document.createElement(tagName);
+          Object.assign(element, properties);
+          parent?.appendChild(element);
+          children?.map((child) => {
+            child.parent = element;
+            createElement(child);
+          });
+          return element;
+        };
+
+        if (count > 1) {
+          const results = [];
+          for (let i = 0; i < count; ++i) {
+            results.push(create());
+          }
+          return results;
+        } else {
+          return create();
+        }
+      }
+    </script>
+  </body>
+</html>

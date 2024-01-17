@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const app = createElement({
+        tagName: 'div',
+        properties: { id: 'app' },
+        parent: document.body,
+      });
+
+      const header = createElement({
+        tagName: 'div',
+        properties: { id: 'header' },
+        parent: app,
+        children: [
+          { tagName: 'h1', properties: { innerText: 'To-do list' } },
+          {
+            tagName: 'div',
+            properties: { id: 'counter' },
+            children: [
+              { tagName: 'span', properties: { innerText: 'Total :' } },
+              { tagName: 'span', properties: { innerText: '0' } },
+              { tagName: 'span', properties: { innerText: 'Completed :' } },
+              { tagName: 'span', properties: { innerText: '0' } },
+            ],
+          },
+        ],
+      });
+
+      const inputField = createElement({
+        tagName: 'div',
+        properties: { id: 'input-field' },
+        parent: app,
+        children: [
+          {
+            tagName: 'input',
+            properties: { placeholder: '할일을 입력해주세요...' },
+          },
+          {
+            tagName: 'button',
+            properties: { innerText: 'Add' },
+          },
+        ],
+      });
+
+      const itemListContainer = createElement({
+        tagName: 'div',
+        properties: { id: 'item-list-container' },
+        parent: app,
+        children: [
+          {
+            tagName: 'ul',
+            properties: { id: 'item-list' },
+          },
+        ],
+      });
+
+      const stylesheet = new CSSStyleSheet();
+      stylesheet.replace(`* {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(
+          180deg,
+          #3ac6f3 0%,
+          rgba(200, 180, 180, 0.4) 40%,
+          rgba(255, 0, 0, 0.56) 100%
+        );
+        overflow: hidden;
+      }
+
+      #app {
+        background: #fff;
+        max-width: 500px;
+        width: 100%;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #counter span {
+        margin-right: 0.5rem;
+      }
+
+      #input-field {
+        margin: 20px 0;
+        width: 100%;
+        display: flex;
+        height: 2.5rem;
+      }
+
+      #input-field input {
+        width: 85%;
+        height: 100%;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        font-size: 0.8rem;
+        padding-left: 15px;
+        outline: none;
+      }
+
+      #input-field input:focus {
+        border-color: #ff0051;
+      }
+
+      #input-field button {
+        width: 50px;
+        height: 100%;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 21px;
+        outline: none;
+        background: #3ac6f3;
+        border-radius: 3px;
+      }
+
+      #input-field button:hover {
+        background: #ff0051;
+      }
+
+      #item-list-container {
+        max-height: 250px;
+        overflow: scroll;
+        scrollbar-width: none;
+      }
+
+      #item-list-container li {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        height: 3rem;
+        line-height: 3rem;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      #item-list-container div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      #item-list-container input {
+        margin: 1rem;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button {
+        width: 3rem;
+        margin: 0.3rem 1rem;
+        width: 3rem;
+        border: none;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        outline: none;
+        background: #f97;
+        border-radius: 3px;
+        transition-duration: 0.5s;
+        opacity: 1;
+      }
+      #item-list-container button:hover {
+        background-color: #ddd;
+      }
+      #item-list-container span {
+        width: 100%;
+        text-align: 'left';
+      }`);
+
+      document.adoptedStyleSheets = [stylesheet];
+
+      /**
+       * 1. 인풋에 할일을 입력하고 추가버튼을 클릭하면
+       * 아이템이 리스트에 추가되고 토탈 카운터가 업데이트
+       *
+       * 2. 할일의 체크박스를 클릭하면 취소선이 표시되고
+       * 완료 카운터가 업데이트 되어야합니다.
+       *
+       * 3. 삭제버튼을 클릭하면 아이템이 삭제되고
+       * 카운터가 업데이트 되어야합니다.
+       */
+
+      const addButton = document.querySelector('#input-field button');
+      addButton.addEventListener('click', () => {
+        // 컨테이너를 가져오기
+        const itemContainer = document.querySelector('#item-list-container ul');
+        // 아이템을 생성
+        const item = createElement({
+          tagName: 'li',
+          parent: itemContainer,
+          children: [
+            { tagName: 'input', properties: { type: 'checkbox' } },
+            {
+              tagName: 'span',
+              properties: { innerText: addButton.previousSibling.value },
+            },
+            { tagName: 'button', properties: { innerText: '삭제' } },
+          ],
+        });
+
+        const [checkbox, text, removeButton] = item.children;
+        checkbox.addEventListener('change', () => {
+          checkbox.checked
+            ? (text.style.textDecoration = 'line-through')
+            : text.style.removeProperty('text-decoration');
+
+          // 완료 카운터 업데이트
+          const completeCount = Array.from(itemContainer.children).filter(
+            (child) => child.firstChild.checked
+          ).length;
+          const counter = document.getElementById('counter');
+          counter.lastChild.innerText = '' + completeCount;
+          console.log('change');
+        });
+
+        // 토탈 카운터를 업데이트
+        const counter = document.getElementById('counter');
+        counter.children[1].innerText = '' + itemContainer.children.length;
+
+        console.log('click', counter);
+
+        // 삭제 버튼 이벤트 처리
+        removeButton.addEventListener('click', () => {
+          item.remove();
+
+          // 카운터 전체 업데이트
+          const counter = document.getElementById('counter');
+          counter.children[1].innerText = '' + itemContainer.children.length;
+          const completeCount = Array.from(itemContainer.children).filter(
+            (child) => child.firstChild.checked
+          ).length;
+          counter.lastChild.innerText = '' + completeCount;
+        });
+      });
+
+      function createElement({
+        tagName,
+        properties,
+        parent,
+        children,
+        count = 1,
+      }) {
+        const create = () => {
+          const element = document.createElement(tagName);
+          Object.assign(element, properties);
+          parent?.appendChild(element);
+          children?.map((child) => {
+            child.parent = element;
+            createElement(child);
+          });
+          return element;
+        };
+
+        if (count > 1) {
+          const results = [];
+          for (let i = 0; i < count; ++i) {
+            results.push(create());
+          }
+          return results;
+        } else {
+          return create();
+        }
+      }
+    </script>
+  </body>
+</html>
