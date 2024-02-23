@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 200vh;
+        margin: 0;
+      }
+      svg {
+        position: fixed;
+        top: 0;
+        left: calc(50% - 200px);
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="400px" height="400px" style="border: 1px solid black">
+      <circle id="scrollCircle" cx="200" cy="200" r="200" fill="orange" />
+    </svg>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const circle = document.getElementById("scrollCircle");
+        window.addEventListener("scroll", () => {
+          const docHeight = document.documentElement.scrollHeight;
+          const viewportHeight = window.innerHeight;
+          const scrollAmount = document.documentElement.scrollTop;
+          const maxScroll = docHeight - viewportHeight;
+          const newRadius = 200 - (scrollAmount / maxScroll) * (200 - 10);
+          circle.setAttribute("r", Math.max(10, newRadius));
+        });
+      });
+    </script>
+  </body>
+</html>

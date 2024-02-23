@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=scrollCircle, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="animate"
+      style="width: 100px; height: 100px; background-color: chartreuse"
+    ></div>
+    <script>
+      const box = document.getElementById("animate");
+      box.animate(
+        [{ transform: "translateX(0px)" }, { transform: "translateX(600px)" }],
+        {
+          duration: 2000,
+          iterations: Infinity,
+          direction: "alternate",
+        }
+      );
+    </script>
+  </body>
+</html>

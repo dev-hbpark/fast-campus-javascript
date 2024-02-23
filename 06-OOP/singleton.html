@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class ThemeManager {
+        static instance;
+        theme;
+        constructor() {
+          if (ThemeManager.instance) {
+            return ThemeManager.instance;
+          }
+          this.theme = "light";
+          ThemeManager.instance = this;
+        }
+        static getInstance() {
+          if (!ThemeManager.instance) {
+            ThemeManager.instance = new ThemeManager();
+          }
+          return ThemeManager.instance;
+        }
+        getTheme() {
+          return this.theme;
+        }
+        setTheme(theme) {
+          this.theme = theme;
+        }
+      }
+
+      const themeManager1 = ThemeManager.getInstance();
+      console.log(themeManager1.getTheme());
+      themeManager1.setTheme("dark");
+      console.log(themeManager1.getTheme());
+
+      const themeManager2 = ThemeManager.getInstance();
+      console.log(themeManager2.getTheme());
+    </script>
+  </body>
+</html>

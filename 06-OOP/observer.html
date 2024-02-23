@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Publisher {
+        constructor() {
+          this.subscribers = [];
+        }
+        subscribe(observer) {
+          this.subscribers.push(observer);
+        }
+        unsubscribe(observer) {
+          this.subscribers = this.subscribers.filter((sub) => sub !== observer);
+        }
+        notifySubscribers(news) {
+          this.subscribers.forEach((observer) => observer.update(news));
+        }
+      }
+
+      class NewSubscriber {
+        update(news) {
+          throw new Error("날 구현해줘");
+        }
+      }
+
+      class Subscriber1 {
+        update(news) {
+          console.log("Subscriber1 : ", news);
+        }
+      }
+      class Subscriber2 {
+        update(news) {
+          console.log("Subscriber2 : ", news);
+        }
+      }
+
+      const publisher = new Publisher();
+      const sub1 = new Subscriber1();
+      const sub2 = new Subscriber2();
+
+      publisher.subscribe(sub1);
+      publisher.subscribe(sub2);
+
+      publisher.notifySubscribers("publish");
+    </script>
+  </body>
+</html>

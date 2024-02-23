@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.126.1/build/three.min.js"></script>
+    <script type="module" src="./main.js"></script>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      main {
+        height: auto;
+      }
+      section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        color: white;
+        background-color: black;
+      }
+      .scroll-animate {
+        opacity: 0;
+        transition: opacity 0.6s ease-out;
+      }
+      .is-visible {
+        opacity: 1;
+      }
+      .typing-effect {
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+        font-size: 2rem;
+        white-space: pre;
+      }
+      .tilt-effect-container {
+        perspective: 1000px;
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+      }
+      .tilt-effect {
+        background-color: tomato;
+        width: 50%;
+        height: 50%;
+        transition: transform 0.1s;
+        transform-style: preserve-3d;
+      }
+      .progress {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 10px;
+        background-color: tomato;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div id="scroll-progress" class="progress"></div>
+      <section class="scroll-animate typing-effect"></section>
+      <section id="image-slider" class="scroll-animate"></section>
+      <section id="video-player" class="scroll-animate"></section>
+      <section id="model-viewer" class="scroll-animate"></section>
+      <section class="scroll-animate tilt-effect-container">
+        <div class="tilt-effect"></div>
+      </section>
+    </div>
+  </body>
+</html>

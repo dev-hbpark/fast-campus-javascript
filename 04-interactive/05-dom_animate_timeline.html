@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: tomato;
+      }
+      body {
+        height: 300vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      const box = document.querySelector(".box");
+      box.animate(
+        {
+          width: ["0%", "100%"],
+        },
+        {
+          duration: 1000,
+          easing: "ease-out",
+          timeline: new ScrollTimeline({
+            scrollOffsets: [
+              { target: box, edge: "start", threshold: "0" },
+              { target: box, edge: "end", threshold: "1" },
+            ],
+          }),
+        }
+      );
+    </script>
+  </body>
+</html>

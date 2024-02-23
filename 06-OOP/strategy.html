@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class PaymentStrategy {
+        pay(amount) {
+          throw new Error("날 구현해줘");
+        }
+      }
+
+      class CreditCard extends PaymentStrategy {
+        pay(amount) {
+          console.log("카드결재요");
+        }
+      }
+
+      class Cash extends PaymentStrategy {
+        pay(amount) {
+          console.log("현금결재요");
+        }
+      }
+
+      class Coin extends PaymentStrategy {
+        pay(amount) {
+          console.log("코인결재요");
+        }
+      }
+
+      class PaymentProcessor {
+        constructor(strategy) {
+          this.strategy = strategy;
+        }
+        setStrategy(strategy) {
+          this.strategy = strategy;
+        }
+        process(amount) {
+          this.strategy.pay(amount);
+        }
+      }
+
+      const amount = 1000;
+      const paymentProcessor = new PaymentProcessor(new Cash());
+      paymentProcessor.process(amount);
+      paymentProcessor.setStrategy(new CreditCard());
+      paymentProcessor.process(amount);
+      paymentProcessor.setStrategy(new Coin());
+      paymentProcessor.process(amount);
+    </script>
+  </body>
+</html>

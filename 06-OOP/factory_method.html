@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Character {
+        attack() {
+          throw new Error("날 구현해");
+        }
+      }
+
+      class Beast extends Character {
+        attack() {
+          console.log("캬아아아아악!");
+        }
+      }
+
+      class Ghost extends Character {
+        attack() {
+          console.log("으으으으으으");
+        }
+      }
+
+      class CharacterCreator {
+        createCharacter() {
+          throw new Error("날 구현해2");
+        }
+      }
+
+      class BeastCreator extends CharacterCreator {
+        createCharacter() {
+          return new Beast();
+        }
+      }
+
+      class GhostCreator extends CharacterCreator {
+        createCharacter() {
+          return new Ghost();
+        }
+      }
+
+      function attack(creater) {
+        const character = creater.createCharacter();
+        character.attack();
+      }
+
+      const beastCreator = new BeastCreator();
+      const ghostCreator = new GhostCreator();
+
+      attack(beastCreator);
+      attack(ghostCreator);
+    </script>
+  </body>
+</html>

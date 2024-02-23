@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Calc1 {
+        operations(num1, num2, operation) {
+          if (operation === "add") {
+            return num1 + num2;
+          }
+          if (operation === "sub") {
+            return num1 - num2;
+          }
+        }
+      }
+
+      class Calc2 {
+        add(num1, num2) {
+          return num1 + num2;
+        }
+        sub(num1, num2) {
+          return num1 - num2;
+        }
+      }
+
+      class CalcAdapter {
+        constructor() {
+          this.calc = new Calc1();
+        }
+        add(num1, num2) {
+          return this.calc.operations(num1, num2, "add");
+        }
+        sub(num1, num2) {
+          return this.calc.operations(num1, num2, "sub");
+        }
+      }
+
+      console.log(new Calc1().operations(3, 4, "add"));
+      console.log(new Calc2().add(3, 4));
+      console.log(new CalcAdapter().add(3, 4));
+    </script>
+  </body>
+</html>

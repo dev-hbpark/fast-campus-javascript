@@ -1,8 +1,9 @@
+console.log("load carousel");
 // left top right bottom center middle
 // 'left top' 'right bottom', 'left right': X
 export default function makeCarousel(itemList, options) {
   const { visibleCount, slideCount, captionPos } = Object.assign(
-    { visibleCount: 1, slideCount: 1, captionPos: 'center middle' },
+    { visibleCount: 1, slideCount: 1, captionPos: "center middle" },
     options
   );
   const iconNext = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -17,7 +18,7 @@ export default function makeCarousel(itemList, options) {
   const itemWidth = Math.trunc(700 / visibleCount);
 
   const wrapper = createElement({
-    tagName: 'div',
+    tagName: "div",
   });
   wrapper.style.cssText = `width: 100%;
 height: 100%;
@@ -26,11 +27,12 @@ display: flex;
 overflow: hidden;`;
 
   const itemContainer = createElement({
-    tagName: 'div',
+    tagName: "div",
     parent: wrapper,
   });
   itemContainer.style.cssText = `display: flex;
-transform: translateX(0px);`;
+transform: translateX(0px);
+align-items: center;`; // 인터렉션 예제에서 요거 추가해야 됨
 
   addButtons();
 
@@ -42,10 +44,10 @@ transform: translateX(0px);`;
     });
   } else {
     // 없을때는 기존처럼 동작
-    addImageItem(itemContainer, './images/02.jpg');
-    addImageItem(itemContainer, './images/03.jpg');
-    addImageItem(itemContainer, './images/04.jpg');
-    addImageItem(itemContainer, './images/05.jpg');
+    addImageItem(itemContainer, "./images/02.jpg");
+    addImageItem(itemContainer, "./images/03.jpg");
+    addImageItem(itemContainer, "./images/04.jpg");
+    addImageItem(itemContainer, "./images/05.jpg");
   }
 
   function handleSlide(next = true) {
@@ -76,7 +78,7 @@ transform: translateX(0px);`;
   }
 
   function handleTransitionEnd(next) {
-    itemContainer.style.transitionDuration = '0.5s';
+    itemContainer.style.transitionDuration = "0.5s";
     itemContainer.style.transform = `translateX(${
       next ? -itemWidth * slideCount : 0
     }px)`;
@@ -87,14 +89,14 @@ transform: translateX(0px);`;
           ? itemContainer.firstChild.remove()
           : itemContainer.lastChild.remove();
       }
-      itemContainer.style.removeProperty('transition-duration');
+      itemContainer.style.removeProperty("transition-duration");
       itemContainer.style.transform = `translateX(0px)`;
     };
   }
 
   function addButtons() {
     const [prevButton, nextButton] = createElement({
-      tagName: 'button',
+      tagName: "button",
       parent: wrapper,
       count: 2,
     });
@@ -111,9 +113,9 @@ filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.7));`;
     nextButton.style.cssText = prevButton.style.cssText;
 
     nextButton.style.background =
-      'linear-gradient(270deg, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.1) 30%,rgba(0,0,0,0) 100%)';
-    prevButton.style.left = '0px';
-    nextButton.style.right = '0px';
+      "linear-gradient(270deg, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.1) 30%,rgba(0,0,0,0) 100%)";
+    prevButton.style.left = "0px";
+    nextButton.style.right = "0px";
 
     prevButton.innerHTML = iconPrev;
     nextButton.innerHTML = iconNext;
@@ -126,9 +128,9 @@ filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.7));`;
     };
   }
 
-  function addImageItem(parent, src, captionText = 'Caption text') {
+  function addImageItem(parent, src, captionText = "Caption text") {
     const container = createElement({
-      tagName: 'div',
+      tagName: "div",
       parent,
     });
     container.style.cssText = `width: ${itemWidth}px;
@@ -141,14 +143,14 @@ background-color: #000;
 position: relative;`;
 
     const image = createElement({
-      tagName: 'img',
+      tagName: "img",
       parent: container,
       properties: { src },
     });
     image.style.cssText = `height: 100%;`;
 
     const caption = createElement({
-      tagName: 'span',
+      tagName: "span",
       properties: { innerText: captionText },
       parent: container,
     });
@@ -157,16 +159,16 @@ font-weight: bold;
 position: absolute;
 filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.5));`;
 
-    if (captionPos.includes('left')) {
-      caption.style.left = '10%';
-    } else if (captionPos.includes('right')) {
-      caption.style.right = '10%';
+    if (captionPos.includes("left")) {
+      caption.style.left = "10%";
+    } else if (captionPos.includes("right")) {
+      caption.style.right = "10%";
     }
 
-    if (captionPos.includes('top')) {
-      caption.style.top = '20%';
-    } else if (captionPos.includes('bottom')) {
-      caption.style.bottom = '20%';
+    if (captionPos.includes("top")) {
+      caption.style.top = "20%";
+    } else if (captionPos.includes("bottom")) {
+      caption.style.bottom = "20%";
     }
     return container;
   }

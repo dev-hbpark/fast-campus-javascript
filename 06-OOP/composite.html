@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class UIComponent {
+        constructor(name) {
+          this.name = name;
+        }
+        show() {
+          throw new Error("날 구현해!");
+        }
+      }
+
+      class Button extends UIComponent {
+        show() {
+          console.log("버튼 :", this.name);
+        }
+      }
+
+      class TextBox extends UIComponent {
+        show() {
+          console.log("텍스트박스 :", this.name);
+        }
+      }
+
+      class Container extends UIComponent {
+        constructor(name) {
+          super(name);
+          this.children = [];
+        }
+        show() {
+          console.log("컨테이너 :", this.name);
+          for (const child of this.children) {
+            child.show();
+          }
+        }
+        add(component) {
+          this.children.push(component);
+        }
+        remove(component) {
+          const componentIndex = this.children.indexOf(component);
+          if (componentIndex !== -1) {
+            this.children.splice(componentIndex, 1);
+          }
+        }
+      }
+
+      const mainContainer = new Container("main");
+      const subContainer = new Container("sub");
+
+      const button = new Button("text-button");
+      const iconButton = new Button("icon-button");
+      const textBox = new TextBox("textBox");
+
+      mainContainer.add(button);
+      mainContainer.add(subContainer);
+
+      subContainer.add(iconButton);
+      subContainer.add(textBox);
+
+      mainContainer.show();
+    </script>
+  </body>
+</html>
