@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+      //////////////////
+      // 명령형
+      let resultValue = 0;
+      const arr = [];
+      for (let i = 0; i < 5; i++) {
+        if (numbers[i] % 2) {
+          arr.push(numbers[i]);
+        }
+      }
+      const arr2 = [];
+      for (const number of arr) {
+        arr2.push(number * 2);
+      }
+
+      for (const number of arr2) {
+        resultValue += number;
+      }
+      console.log(resultValue);
+      //////////////////
+
+      // 함수형
+      const result = numbers
+        .slice(0, 5)
+        .filter((num) => num % 2)
+        .map((num) => num * 2)
+        .reduce((a, b) => a + b, 0);
+
+      console.log(result);
+    </script>
+  </body>
+</html>

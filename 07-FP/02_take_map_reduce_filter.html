@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+      //   const map = (arr, fn) => {
+      //     let result = [];
+      //     for (let i = 0; i < arr.length; i++) {
+      //       result.push(fn(arr[i]));
+      //     }
+      //     return result;
+      //   };
+
+      //   console.log(map(numbers, (number) => number * 4));
+
+      const numbersMap = new Map([
+        ["a", 1],
+        ["a", 2],
+        ["a", 3],
+        ["a", 4],
+        ["a", 5],
+        ["a", 6],
+        ["a", 7],
+        ["a", 8],
+        ["a", 9],
+        ["a", 10],
+      ]);
+      //   console.log(map(numbersMap, (number) => number * 4));
+      //   console.log(numbersMap, numbers);
+
+      //   const iter = {
+      //     [Symbol.iterator]() {
+      //       let i = 0;
+      //       return {
+      //         next() {
+      //           return {
+      //             value: ++i,
+      //             done: i > 5,
+      //           };
+      //         },
+      //       };
+      //     },
+      //   };
+
+      const map = (f, iter) => {
+        let result = [];
+        const iterator = iter[Symbol.iterator]();
+        let current = iterator.next();
+        while (!current.done) {
+          result.push(f(current.value));
+          current = iterator.next();
+        }
+        return result;
+      };
+
+      console.log(map((num) => num * 4, numbers));
+      console.log(map((num) => num * 4, numbers));
+
+      const take = (limit, iter) => {
+        let res = [];
+        iter = iter[Symbol.iterator]();
+        let cur;
+        while (!(cur = iter.next()).done) {
+          const a = cur.value;
+          res.push(a);
+          if (res.length == limit) return res;
+        }
+        return res;
+      };
+
+      const filter = (f, iter) => {
+        let res = [];
+        for (const a of iter) {
+          if (f(a)) res.push(a);
+        }
+        return res;
+      };
+
+      const reduce = (f, iter, acc) => {
+        if (!iter) {
+          iter = acc[Symbol.iterator]();
+          acc = iter.next().value;
+        } else {
+          iter = iter[Symbol.iterator]();
+        }
+        for (const a of iter) {
+          acc = f(acc, a);
+        }
+        return acc;
+      };
+
+      //   const result = numbers
+      //     .slice(0, 5)
+      //     .filter((num) => num % 2)
+      //     .map((num) => num * 2)
+      //     .reduce((a, b) => a + b, 0);
+
+      console.log(
+        reduce(
+          (a, b) => a + b,
+          map(
+            (num) => num * 2,
+            filter((num) => num % 2, take(5, numbers))
+          ),
+          0
+        )
+      );
+    </script>
+  </body>
+</html>

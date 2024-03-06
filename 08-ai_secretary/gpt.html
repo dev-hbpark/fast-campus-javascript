@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const OPENAI_API_KEY =
+        "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";
+
+      askQuestion("넌 누구니?");
+      generateImage("white dog");
+
+      async function askQuestion(question) {
+        const response = await fetch(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${OPENAI_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "gpt-4",
+              messages: [
+                {
+                  role: "assistant",
+                  content: question,
+                },
+              ],
+            }),
+          }
+        );
+        const result = (await response.json()).choices[0].message.content;
+        console.log(result);
+      }
+
+      async function generateImage(text) {
+        const response = await fetch(
+          "https://api.openai.com/v1/images/generations",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${OPENAI_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "dall-e-2",
+              prompt: text,
+              n: 1,
+              size: "256x256",
+            }),
+          }
+        );
+        const result = await response.json();
+        if (result.created) {
+          console.log(result.created);
+          const image = document.createElement("img");
+          image.src = result.data[0].url;
+          document.body.appendChild(image);
+        }
+      }
+    </script>
+  </body>
+</html>

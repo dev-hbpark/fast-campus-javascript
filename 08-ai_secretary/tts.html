@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="speech">시작</button>
+    <script>
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      const recognition = new SpeechRecognition();
+      console.log(recognition);
+      recognition.continuos = true;
+      recognition.lang = "ko-KR";
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        console.log("started");
+      };
+
+      recognition.onresult = (event) => {
+        const text = event.results[event.results.length - 1][0].transcript;
+        console.log(text);
+        speak(text);
+      };
+
+      recognition.onend = () => {
+        recognition.start();
+      };
+
+      document.getElementById("speech").onclick = () => {
+        recognition.start();
+      };
+
+      function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+        speechSynthesis.onend = () => {
+          recognition.start();
+        };
+      }
+    </script>
+  </body>
+</html>

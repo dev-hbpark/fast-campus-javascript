@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const range = (limit) => {
+        let i = -1;
+        const res = [];
+        while (++i < limit) {
+          res.push(i);
+        }
+        return res;
+      };
+
+      const numbers = range(100);
+
+      // f(0, 1) = 실행, f(0) = 함수 반환
+      const curry =
+        (f) =>
+        (a, ...args) => {
+          return args.length > 0 ? f(a, ...args) : (...args) => f(a, ...args);
+        };
+
+      const map = curry((f, iter) => {
+        let result = [];
+        const iterator = iter[Symbol.iterator]();
+        let current = iterator.next();
+        while (!current.done) {
+          result.push(f(current.value));
+          current = iterator.next();
+        }
+        return result;
+      });
+
+      const take = curry((limit, iter) => {
+        let res = [];
+        iter = iter[Symbol.iterator]();
+        let cur;
+        while (!(cur = iter.next()).done) {
+          const a = cur.value;
+          res.push(a);
+          if (res.length == limit) return res;
+        }
+        return res;
+      });
+
+      const filter = curry((f, iter) => {
+        let res = [];
+        for (const a of iter) {
+          if (f(a)) res.push(a);
+        }
+        return res;
+      });
+
+      const reduce = curry((f, acc, iter) => {
+        if (!iter) {
+          iter = acc[Symbol.iterator]();
+          acc = iter.next().value;
+        } else {
+          iter = iter[Symbol.iterator]();
+        }
+        for (const a of iter) {
+          acc = f(acc, a);
+        }
+        return acc;
+      });
+
+      //   console.log(
+      //     reduce(
+      //       (a, b) => a + b,
+      //       map(
+      //         (num) => num * 2,
+      //         filter((num) => num % 2, take(5, numbers))
+      //       ),
+      //       0
+      //     )
+      //   );
+
+      const go = (...args) => reduce((a, f) => f(a), args);
+      const result = numbers
+        .slice(0, 5)
+        .filter((num) => num % 2)
+        .map((num) => num * 2)
+        .reduce((a, b) => a + b, 0);
+      console.log(result);
+
+      go(
+        numbers,
+        take(5),
+        filter((num) => num % 2),
+        map((num) => num * 2),
+        reduce((a, b) => a + b),
+        console.log
+      );
+    </script>
+  </body>
+</html>

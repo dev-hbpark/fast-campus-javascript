@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 1. 순수함수
+       * 2. 불변성
+       * 3. 함수의 일급 객체
+       * 4. 고차함수
+       * 5. 함수합성
+       */
+      const numbers = [1, 2, 3, 4, 5];
+      function sumNumbers(numbers) {
+        let total = 0;
+        numbers.forEach((number) => (total += number));
+        return total;
+      }
+      console.log(sumNumbers(numbers));
+      console.log(sumNumbers(numbers));
+
+      function add(numbers) {
+        const clone = [...numbers];
+        for (let i = 0; i < clone.length; ++i) {
+          clone[i] += 1;
+        }
+        return clone;
+      }
+      console.log(add(numbers));
+      console.log(add(numbers));
+
+      const printLog = (msg) => console.log(msg);
+      function execute(callback, ...args) {
+        callback(...args);
+      }
+      execute(printLog, "hello!");
+
+      const addNumbers = (num1) => (num2) => num1 + num2;
+
+      function addNumbers2(num1) {
+        return function (num2) {
+          return num1 + num2;
+        };
+      }
+      console.log(addNumbers(1)(2), addNumbers2(1)(2));
+
+      // x1 = 1 + 2
+      // x2 = 2 + 3
+      // x3 = x1 + x2
+
+      const compose = (f, g) => (x) => {
+        return f(g(x));
+      };
+
+      console.log(compose(addNumbers(1), addNumbers(2))(10));
+    </script>
+  </body>
+</html>

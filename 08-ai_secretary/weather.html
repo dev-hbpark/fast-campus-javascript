@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const API_KEY =
+        "3YjvCKjj7GRuyvUtCInuvHw0u3YwbwjFqonVyAKUuCUR3oqrQD29uIG4gRz59kKF4TnTzIOn5Ydqc9WWRuczZA%3D%3D";
+      const now = new Date();
+      const date = now
+        .toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replaceAll(". ", "")
+        .replace(".", "");
+      //   console.log(date);
+      const time = String(now.getHours()).padStart(2, "0") + "00";
+      //   console.log(time);
+      const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${date}0&base_time=${time}&nx=61&ny=125`;
+      //   console.log(url);
+      fetch(url).then((result) => {
+        result.json().then((response) => {
+          console.log(response.response.body.items.item);
+          const items = response.response.body.items.item;
+          const temperature = items.find(
+            (item) => item.category === "T1H"
+          ).obsrValue;
+          const humidity = items.find(
+            (item) => item.category === "REH"
+          ).obsrValue;
+          console.log(
+            `현재 기온은 ${temperature}도이고 습도는 ${humidity}%입니다.`
+          );
+        });
+      });
+    </script>
+  </body>
+</html>
