@@ -8,76 +8,63 @@
   <body>
     <script>
       class Car {
+        #isEngineOn;
         constructor(brand, model, year) {
           this.brand = brand;
           this.model = model;
           this.year = year;
-          this.isEngineOn = false;
+          this.#isEngineOn = false;
         }
-
         engineOn() {
-          this.isEngineOn = true;
+          this.#isEngineOn = true;
           console.log(`${this.brand} ${this.model}의 엔진이 켜졌습니다.`);
         }
-
         engineOff() {
-          this.isEngineOn = false;
+          this.#isEngineOn = false;
           console.log(`${this.brand} ${this.model}의 엔진이 꺼졌습니다.`);
         }
-
         displayInfo() {
-          console.log(
-            `자동차 정보 : ${this.brand} ${this.model}, 제조년도: ${this.year}`
-          );
+          console.log(`${this.brand} ${this.model} 제조년도 ${this.year}`);
         }
-
         checkEngineStatus() {
-          if (this.isEngineOn) {
-            console.log(`${this.brand} ${this.model}의 엔진이 켜져있습니다.`);
-          } else {
+          if (this.#isEngineOn) {
             console.log(`${this.brand} ${this.model}의 엔진이 꺼져있습니다.`);
+          } else {
+            console.log(`${this.brand} ${this.model}의 엔진이 켜져있습니다.`);
           }
         }
       }
-
-      const myCar = new Car("현대", "그렌져", 2024);
-      myCar.displayInfo();
-      myCar.engineOn();
-      myCar.checkEngineStatus();
-      myCar.engineOff();
-
-      const myCar2 = new Car("벤츠", "S-class", 2020);
-      myCar2.displayInfo();
-      myCar2.engineOn();
-      myCar2.checkEngineStatus();
-      myCar2.engineOff();
 
       class ElectricCar extends Car {
         constructor(brand, model, year, batteryCapacity) {
           super(brand, model, year);
           this.batteryCapacity = batteryCapacity;
         }
-
         checkBatteryStatus() {
           console.log(
-            `${this.brand} ${this.model}의 배터리 용량은 ${this.batteryCapacity}kWh 입니다.`
+            `${this.brand} ${this.model}의 배터리 용량은 ${this.batteryCapacity}kwh 입니다.`
           );
         }
-
         engineOn() {
-          console.log(`${this.brand} ${this.model}의 전원을 켰습니다.`);
+          console.log(`${this.brand} ${this.model}의 전원이 켜졌습니다.`);
         }
-
         engineOff() {
-          console.log(`${this.brand} ${this.model}의 전원을 껐습니다.`);
+          console.log(`${this.brand} ${this.model}의 전원이 꺼졌습니다.`);
         }
       }
 
-      const myElectricCar = new ElectricCar("Tesla", "model S", 2020, 75);
-      myElectricCar.displayInfo();
-      myElectricCar.engineOn();
-      myElectricCar.checkEngineStatus();
-      myElectricCar.engineOff();
+      const car = new Car("현대", "그렌져", 2024);
+      car.displayInfo();
+      car.engineOn();
+      car.checkEngineStatus();
+      car.engineOff();
+
+      const electricCar = new ElectricCar("테슬라", "모델에스", 2020, 75);
+      electricCar.displayInfo();
+      electricCar.engineOn();
+      electricCar.checkEngineStatus();
+      electricCar.checkBatteryStatus();
+      electricCar.engineOff();
     </script>
   </body>
 </html>
