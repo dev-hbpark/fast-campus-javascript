@@ -1,5 +1,5 @@
 // initRecognition();
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "user_api_key_here";
 
 let recognition = null;
 document.getElementById("startBtn").onclick = () => {
@@ -45,8 +45,7 @@ async function addChatMessage(text, author = "user", url = null) {
 }
 
 async function weatherForecast() {
-  const API_KEY =
-    "3YjvCKjj7GRuyvUtCInuvHw0u3YwbwjFqonVyAKUuCUR3oqrQD29uIG4gRz59kKF4TnTzIOn5Ydqc9WWRuczZA%3D%3D";
+  const API_KEY = "user_api_key_here";
   const now = new Date();
   const date = now
     .toLocaleDateString("ko-KR", {
